@@ -58,21 +58,18 @@
 <div class="product-cards">
 
     @foreach($products as $product)
-
         <div class="card">
             <h2>{{$product->name}}</h2>
             <p>{!! $product->description !!}</p>
             <p>Quantity: {{$product->quantity}}</p>
             <input type="number" class="quantity-input" value="1" min="1"> <!-- Input field for quantity -->
-
             <button class="add-to-cart-btn"
-                    data-product-id="{{ $product->id }}"
-                    data-quantity="2">
+                    data-product-id="{{ $product->id }}">
                 Add to Cart
             </button>
         </div>
-
     @endforeach
+
 
 
 </div>
@@ -88,7 +85,6 @@
         <tr>
             <th>Product Name</th>
             <th>Quantity</th>
-            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -151,7 +147,7 @@
                     // Append new cart items
                     $.each(response, function(index, cartItem) {
                         var row = '<tr>' +
-                            '<td>' + cartItem.product.name + '</td>' +
+                            '<td>' + cartItem.product.name + '<br>' + '</td>' +
                             '<td>' + cartItem.quantity + '</td>' +
                             '</tr>';
                         $('.cart-table tbody').append(row);

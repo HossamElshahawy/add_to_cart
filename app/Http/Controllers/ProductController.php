@@ -23,11 +23,14 @@ class ProductController extends Controller
         return response()->json($cartItems);
     }
 
-    public function addToCart(Request $request,Product $product) {
+    public function addToCart(Request $request) {
 
-//        $productId = $request->product_id;
         $quantity = $request->quantity;
-        if ($quantity > $product->quanity) {
+        $productId =$request->product_id;
+
+        $product = Product::findOrFail($productId);
+        // Check if the requested quantity exceeds the available quantity of the product
+        if ($quantity > $product->quantity) {
             return response()->json('Out of stock');
         }
 
@@ -35,7 +38,7 @@ class ProductController extends Controller
 
         // Insert into carts table
         Cart::create([
-            'product_id' => $request->product_id,
+            'product_id' => $productId,
             'quantity' => $quantity,
             'user_id' => $userId
         ]);
@@ -58,6 +61,9 @@ class ProductController extends Controller
     public function updateQuantity(Request $request){
         $cart = Cart::findOrFail($request->id);
         $cart->quantity = $request->quantity;
+        if ($cart->quantity > $cart->product->quantity) {
+            return response()->json('Out of stock');
+        }
         $cart->save();
         return response()->json('Quantity updated');
     }
