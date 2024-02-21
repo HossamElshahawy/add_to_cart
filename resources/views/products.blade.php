@@ -128,6 +128,7 @@
                 },
                 success: function(response) {
                     // Update the cart table in real-time
+                    alert(response)
                     updateCartTable();
                 },
                 error: function(xhr) {

@@ -23,10 +23,14 @@ class ProductController extends Controller
         return response()->json($cartItems);
     }
 
-    public function addToCart(Request $request) {
+    public function addToCart(Request $request,Product $product) {
 
 //        $productId = $request->product_id;
         $quantity = $request->quantity;
+        if ($quantity > $product->quanity) {
+            return response()->json('Out of stock');
+        }
+
         $userId = auth()->id();
 
         // Insert into carts table
